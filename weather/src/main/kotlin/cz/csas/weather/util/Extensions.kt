@@ -8,3 +8,7 @@ fun <T> ResponseEntity<T>.getOrThrow(): T =
     if (this.statusCode == HttpStatus.OK && this.body != null)
         this.body!!
     else throw IOException("Unsuccessful HTTP request: $this")
+
+fun <Dto> Dto.ok(): ResponseEntity<Dto> {
+    return ResponseEntity(this, HttpStatus.OK)
+}

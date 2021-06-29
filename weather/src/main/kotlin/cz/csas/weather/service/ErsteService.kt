@@ -21,7 +21,7 @@ class ErsteService(
 
     fun getPlaces(
         place: String,
-        country: String = "CZ",
+        country: String,
         types: String = "BRANCH",
         detail: String = "MINIMAL",
         page: Int = 0,

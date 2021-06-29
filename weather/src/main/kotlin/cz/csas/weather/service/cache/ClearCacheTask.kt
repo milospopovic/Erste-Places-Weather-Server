@@ -1,4 +1,4 @@
-package cz.csas.weather.service
+package cz.csas.weather.service.cache
 
 import org.springframework.cache.CacheManager
 import org.springframework.scheduling.annotation.Scheduled
