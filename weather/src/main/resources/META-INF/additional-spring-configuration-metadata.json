@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "erste.url",
+      "type": "java.lang.String",
+      "description": "URL to API root."
+    }
+  ] }
