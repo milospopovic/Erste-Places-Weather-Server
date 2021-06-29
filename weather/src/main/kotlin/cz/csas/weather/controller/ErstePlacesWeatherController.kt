@@ -50,7 +50,7 @@ class ErstePlacesWeatherController(
                     ersteData.pageNumber - 1,
                     ersteData.pageSize
                 )
-            }.withRel("prev"))
+            }.withRel(PAGE_PREV))
         if (ersteData.nextPage != null)
             links.add(linkTo<ErstePlacesWeatherController> {
                 getErstePlacesWeatherByCity(
@@ -59,7 +59,7 @@ class ErstePlacesWeatherController(
                     ersteData.nextPage,
                     ersteData.pageSize
                 )
-            }.withRel("next"))
+            }.withRel(PAGE_NEXT))
 
         return CollectionModel.of(response, links).ok()
     }
@@ -100,7 +100,7 @@ class ErstePlacesWeatherController(
                     ersteData.pageNumber - 1,
                     ersteData.pageSize
                 )
-            }.withRel("prev"))
+            }.withRel(PAGE_PREV))
         if (ersteData.nextPage != null)
             links.add(linkTo<ErstePlacesWeatherController> {
                 getErstePlacesWeatherByCoordinates(
@@ -110,7 +110,7 @@ class ErstePlacesWeatherController(
                     ersteData.nextPage,
                     ersteData.pageSize
                 )
-            }.withRel("next"))
+            }.withRel(PAGE_NEXT))
 
         return CollectionModel.of(response, links).ok()
     }
@@ -133,5 +133,10 @@ class ErstePlacesWeatherController(
             weatherDescription = weatherData?.weather?.firstOrNull()?.description,
             temperature = weatherData?.main?.temp
         )
+    }
+
+    companion object {
+        private const val PAGE_PREV = "prev"
+        private const val PAGE_NEXT = "next"
     }
 }
