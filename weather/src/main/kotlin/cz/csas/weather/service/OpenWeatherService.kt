@@ -6,6 +6,7 @@ import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -22,6 +23,7 @@ class OpenWeatherService(
 ) {
     private val log: Logger = LoggerFactory.getLogger(OpenWeatherService::class.java)
 
+    @Cacheable("currentWeather")
     fun getCurrentWeather(
         city: String,
         countryCode: String? = null
@@ -34,21 +36,19 @@ class OpenWeatherService(
             .queryParam(PLACE, place)
             .addApiKeyParam()
 
-        val response = if (calls++ < MAX_CALLS) //to avoid exceeding free limit
-            restTemplate.exchange(
+        return kotlin.runCatching {
+            val response = restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
                 entity,
                 WeatherData::class.java,
             )
-        else return null
-        return try {
-            response.getOrThrow().also {
-                log.info("Downloaded data from OpenWeather: $it")
-            }
-        } catch (e: IOException) {
-            null
-        }
+            response.getOrThrow()
+        }.onSuccess {
+            log.info("Downloaded data from OpenWeather: $it")
+        }.onFailure {
+            log.info("Could not download weather for $place")
+        }.getOrNull()
     }
 
     private fun UriComponentsBuilder.addApiKeyParam(): UriComponentsBuilder {
