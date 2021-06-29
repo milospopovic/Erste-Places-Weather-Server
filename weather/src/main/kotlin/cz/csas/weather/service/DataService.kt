@@ -21,7 +21,7 @@ class DataService(
         )
 
         ersteData.items.forEach {
-            openWeatherService.getCurrentWeather(city = place, countryCode = countryCode)
+            openWeatherService.getCurrentWeather(city = it.city ?: return@forEach, countryCode = it.country)
         }
     }
 }
