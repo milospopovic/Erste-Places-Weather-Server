@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 class ErsteService(
@@ -26,24 +27,24 @@ class ErsteService(
         page: Int = 0,
         pageSize: Int = 25,
     ): PageItems {
-        val headers = HttpHeaders()
-        headers[PLACE] = place
-        headers[COUNTRY] = country
-        headers[TYPES] = types
-        headers[DETAIL] = detail
-        headers[PAGE] = page.toString()
-        headers[PAGE_SIZE] = pageSize.toString()
+        val builder = UriComponentsBuilder.fromPath(PATH)
+            .queryParam(PLACE, place)
+            .queryParam(COUNTRY, country)
+            .queryParam(TYPES, types)
+            .queryParam(DETAIL, detail)
+            .queryParam(PAGE, page.toString())
+            .queryParam(PAGE_SIZE, pageSize.toString())
 
-        val entity = HttpEntity<PageItems>(headers)
+        val entity = HttpEntity<PageItems>(HttpHeaders())
 
-        val response = restTemplate.exchange(URL, HttpMethod.GET, entity, PageItems::class.java)
+        val response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, PageItems::class.java)
         return response.getOrThrow().also {
             log.info("Downloaded data from erste: $it")
         }
     }
 
     companion object {
-        private const val URL = "/v3/places"
+        private const val PATH = "/v3/places"
 
         private const val PLACE = "q"
         private const val COUNTRY = "country"
