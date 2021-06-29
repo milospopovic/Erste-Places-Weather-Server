@@ -1,6 +1,7 @@
 package cz.csas.weather.rest.erste
 
 import org.springframework.http.HttpRequest
+import org.springframework.http.MediaType
 import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.http.client.ClientHttpResponse
@@ -13,7 +14,9 @@ class ErsteAPIClientHttpRequestInterceptor(
         body: ByteArray,
         execution: ClientHttpRequestExecution
     ): ClientHttpResponse {
-        httpRequest.headers.add(API_KEY_HEADER, ersteProperties.apiKey)
+        val headers = httpRequest.headers
+        headers.add(API_KEY_HEADER, ersteProperties.apiKey)
+        headers.accept = listOf(MediaType.APPLICATION_JSON)
         return execution.execute(httpRequest, body)
     }
 
