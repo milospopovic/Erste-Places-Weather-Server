@@ -20,16 +20,26 @@ class ErsteService(
     private val log: Logger = LoggerFactory.getLogger(ErsteService::class.java)
 
     fun getPlaces(
-        place: String,
-        country: String,
+        place: String? = null,
+        country: String? = null,
+        lat: Double? = null,
+        lng: Double? = null,
+        radius: Int? = null,
         types: String = "BRANCH",
         detail: String = "MINIMAL",
         page: Int = 0,
         pageSize: Int = 25,
     ): PageItems {
+        require((place != null) || (lat != null && lng != null && radius != null)) {
+            "city or coordinates must be filled"
+        }
+
         val builder = UriComponentsBuilder.fromPath(PATH)
             .queryParam(PLACE, place)
             .queryParam(COUNTRY, country)
+            .queryParam(LAT, lat)
+            .queryParam(LNG, lng)
+            .queryParam(RADIUS, radius)
             .queryParam(TYPES, types)
             .queryParam(DETAIL, detail)
             .queryParam(PAGE, page.toString())
@@ -48,6 +58,9 @@ class ErsteService(
 
         private const val PLACE = "q"
         private const val COUNTRY = "country"
+        private const val LAT = "lat"
+        private const val LNG = "lng"
+        private const val RADIUS = "radius"
         private const val TYPES = "types"
         private const val DETAIL = "detail"
         private const val PAGE = "page"

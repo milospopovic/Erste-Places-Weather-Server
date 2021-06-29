@@ -1,6 +1,7 @@
 package cz.csas.weather.controller
 
 import cz.csas.weather.controller.dto.ErstePlaceWeatherResponse
+import cz.csas.weather.rest.erste.placesapi.PageItems
 import cz.csas.weather.service.ErsteService
 import cz.csas.weather.service.OpenWeatherService
 import cz.csas.weather.util.ok
@@ -30,24 +31,7 @@ class ErstePlacesWeatherController(
             pageSize = size
         )
 
-        val placesWeather = ersteData.items.map {
-            val city = it.city
-
-            val weatherData = if (city != null)
-                openWeatherService.getCurrentWeather(city = city, countryCode = it.country)
-            else null
-            ErstePlaceWeatherResponse(
-                type = it.type,
-                state = it.state,
-                name = it.name,
-                address = it.address,
-                city = city,
-                country = it.country,
-                weather = weatherData?.weather?.firstOrNull()?.main,
-                weatherDescription = weatherData?.weather?.firstOrNull()?.description,
-                temperature = weatherData?.main?.temp
-            )
-        }
+        val response = ersteData.toResponse()
 
         val links = mutableListOf<Link>()
         links.add(linkTo<ErstePlacesWeatherController> {
@@ -77,6 +61,77 @@ class ErstePlacesWeatherController(
                 )
             }.withRel("next"))
 
-        return CollectionModel.of(placesWeather, links).ok()
+        return CollectionModel.of(response, links).ok()
+    }
+
+    @GetMapping("/coordinates")
+    fun getErstePlacesWeatherByCoordinates(
+        @RequestParam(name = "lat", required = true) lat: Double,
+        @RequestParam(name = "lng", required = true) lng: Double,
+        @RequestParam(name = "radius", required = true) radius: Int,
+        @RequestParam(name = "page", required = false, defaultValue = "0") page: Int,
+        @RequestParam(name = "size", required = false, defaultValue = "25") size: Int,
+    ): ResponseEntity<CollectionModel<ErstePlaceWeatherResponse>> {
+        val ersteData = ersteService.getPlaces(
+            lat = lat,
+            lng = lng,
+            radius = radius,
+            page = page,
+            pageSize = size
+        )
+        val response = ersteData.toResponse()
+
+        val links = mutableListOf<Link>()
+        links.add(linkTo<ErstePlacesWeatherController> {
+            getErstePlacesWeatherByCoordinates(
+                lat,
+                lng,
+                radius,
+                ersteData.pageNumber,
+                ersteData.pageSize
+            )
+        }.withSelfRel())
+        if (ersteData.pageNumber > 0)
+            links.add(linkTo<ErstePlacesWeatherController> {
+                getErstePlacesWeatherByCoordinates(
+                    lat,
+                    lng,
+                    radius,
+                    ersteData.pageNumber - 1,
+                    ersteData.pageSize
+                )
+            }.withRel("prev"))
+        if (ersteData.nextPage != null)
+            links.add(linkTo<ErstePlacesWeatherController> {
+                getErstePlacesWeatherByCoordinates(
+                    lat,
+                    lng,
+                    radius,
+                    ersteData.nextPage,
+                    ersteData.pageSize
+                )
+            }.withRel("next"))
+
+        return CollectionModel.of(response, links).ok()
+    }
+
+    private fun PageItems.toResponse() = items.map {
+        val city = it.city
+
+        val weatherData = if (city != null)
+            openWeatherService.getCurrentWeather(city = city, countryCode = it.country)
+        else null
+
+        ErstePlaceWeatherResponse(
+            type = it.type,
+            state = it.state,
+            name = it.name,
+            address = it.address,
+            city = city,
+            country = it.country,
+            weather = weatherData?.weather?.firstOrNull()?.main,
+            weatherDescription = weatherData?.weather?.firstOrNull()?.description,
+            temperature = weatherData?.main?.temp
+        )
     }
 }
