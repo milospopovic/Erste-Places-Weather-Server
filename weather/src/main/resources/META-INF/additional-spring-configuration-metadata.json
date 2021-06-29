@@ -3,6 +3,11 @@
     {
       "name": "erste.url",
       "type": "java.lang.String",
-      "description": "URL to API root."
+      "description": "URL to API root for erste."
+    },
+    {
+      "name": "openweather.url",
+      "type": "java.lang.String",
+      "description": "URL to API root for openweather."
     }
   ] }
