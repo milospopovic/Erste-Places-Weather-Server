@@ -60,8 +60,5 @@ class OpenWeatherService(
         private const val PLACE = "q"
         private const val API_KEY_HEADER = "appid"
         private const val PATH = "/weather"
-
-        private const val MAX_CALLS = 5
-        private var calls = 0
     }
 }
