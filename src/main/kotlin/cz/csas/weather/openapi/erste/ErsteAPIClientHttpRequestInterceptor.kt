@@ -6,6 +6,9 @@ import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.http.client.ClientHttpResponse
 
+/**
+ * Interceptor for adding headers for api key and acceptable media type for every request for erste api.
+ */
 class ErsteAPIClientHttpRequestInterceptor(
     private val ersteProperties: ErsteProperties
 ) : ClientHttpRequestInterceptor {

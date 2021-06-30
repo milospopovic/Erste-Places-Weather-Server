@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 
+/**
+ * Service for downloading data from erste api
+ */
 @Service
 class ErsteService(
     @Qualifier("restTemplateForErsteAPI")
@@ -19,6 +22,13 @@ class ErsteService(
 ) {
     private val log: Logger = LoggerFactory.getLogger(ErsteService::class.java)
 
+    /**
+     * Downloads data about erste places. Place or coordinates (@param lat, @param lng, @param radius) must be filled.
+     * @param types type of place - BRANCH/ATM
+     * @param detail Level of detail in returned objects
+     *
+     * @return page of places downloaded from erste api with information about pages
+     */
     fun getPlaces(
         place: String? = null,
         country: String? = null,

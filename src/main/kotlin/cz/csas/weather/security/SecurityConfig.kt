@@ -13,6 +13,10 @@ import org.springframework.security.config.http.SessionCreationPolicy
 class SecurityConfig(
     private val securityProperties: SecurityProperties
 ) : WebSecurityConfigurerAdapter() {
+
+    /**
+     * Require api key for every request except documentation
+     */
     override fun configure(httpSecurity: HttpSecurity) {
         val filter = APIKeyPreAuthenticatedProcessingFilter(securityProperties.apiKeyHeader)
         filter.setAuthenticationManager(authenticationManager)

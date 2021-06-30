@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 
+/**
+ * Service for downloading data from openweather api
+ */
 @Service
 class OpenWeatherService(
     @Qualifier("restTemplateForOpenWeatherAPI")
@@ -22,6 +25,10 @@ class OpenWeatherService(
 ) {
     private val log: Logger = LoggerFactory.getLogger(OpenWeatherService::class.java)
 
+    /**
+     * Downloads data about current weather by @param city and optionally @param countryCode
+     * @return basic information about current weather for @param city or null if not provided
+     */
     @Cacheable("currentWeather")
     fun getCurrentWeather(
         city: String,

@@ -6,6 +6,9 @@ import org.springframework.http.client.ClientHttpRequestExecution
 import org.springframework.http.client.ClientHttpRequestInterceptor
 import org.springframework.http.client.ClientHttpResponse
 
+/**
+ * Interceptor for adding headers for acceptable media type for every request for openweather api.
+ */
 class OpenWeatherClientHttpRequestInterceptor : ClientHttpRequestInterceptor {
     override fun intercept(
         httpRequest: HttpRequest,
