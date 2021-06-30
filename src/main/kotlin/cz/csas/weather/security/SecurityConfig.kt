@@ -21,6 +21,8 @@ class SecurityConfig(
             .csrf().disable()
             .addFilter(filter)
             .authorizeRequests()
+            .antMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+            .permitAll()
             .anyRequest()
             .authenticated()
             .and()

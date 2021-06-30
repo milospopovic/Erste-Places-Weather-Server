@@ -5,18 +5,38 @@ import cz.csas.weather.openapi.erste.placesapi.PageItems
 import cz.csas.weather.service.ErsteService
 import cz.csas.weather.service.OpenWeatherService
 import cz.csas.weather.util.ok
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.Link
 import org.springframework.hateoas.server.mvc.linkTo
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
+/**
+ * Controller for providing data about Erste places and current weather on places.
+ */
 @RestController
 @RequestMapping("/places/weather")
 class ErstePlacesWeatherController(
     val ersteService: ErsteService,
     val openWeatherService: OpenWeatherService,
 ) {
+    @Operation(summary = "Get weather on Erste places by city and country")
+    @ApiResponses(
+        ApiResponse(
+            responseCode = "200", description = "Returned page of requested places with weather if provided",
+            content = [Content(
+                mediaType = "application/json",
+                array = ArraySchema(schema = Schema(implementation = ErstePlaceWeatherResponse::class))
+            )]
+        ),
+        ApiResponse(responseCode = "403", description = "Invalid api key", content = [Content()]),
+    )
     @GetMapping("/city/{city}")
     fun getErstePlacesWeatherByCity(
         @PathVariable(name = "city", required = true) city: String,
@@ -64,6 +84,17 @@ class ErstePlacesWeatherController(
         return CollectionModel.of(response, links).ok()
     }
 
+    @Operation(summary = "Get weather on Erste places by coordinates - latitude, longitude and radius")
+    @ApiResponses(
+        ApiResponse(
+            responseCode = "200", description = "Returned page of requested places with weather if provided",
+            content = [Content(
+                mediaType = "application/json",
+                array = ArraySchema(schema = Schema(implementation = ErstePlaceWeatherResponse::class))
+            )]
+        ),
+        ApiResponse(responseCode = "403", description = "Invalid api key", content = [Content()]),
+    )
     @GetMapping("/coordinates")
     fun getErstePlacesWeatherByCoordinates(
         @RequestParam(name = "lat", required = true) lat: Double,
