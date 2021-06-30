@@ -14,7 +14,7 @@ class ClearCacheTask(private val cacheManager: CacheManager) {
         cacheManager.getCache("currentWeather")?.clear()
     }
     /**
-     * Clears cache for storing current weather at the beginning of every hour
+     * Clears cache for storing erste places every day
      */
     @Scheduled(cron = "0 0 0 * * *")
     fun clearErstePlacesCache(){
