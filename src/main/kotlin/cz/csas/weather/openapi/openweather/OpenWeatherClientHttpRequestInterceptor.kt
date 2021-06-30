@@ -10,6 +10,9 @@ import org.springframework.http.client.ClientHttpResponse
  * Interceptor for adding headers for acceptable media type for every request for openweather api.
  */
 class OpenWeatherClientHttpRequestInterceptor : ClientHttpRequestInterceptor {
+    /**
+     * Adds headers for json media type for every request for openweather api. Api key must be provided via parameter.
+     */
     override fun intercept(
         httpRequest: HttpRequest,
         body: ByteArray,

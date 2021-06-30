@@ -12,6 +12,9 @@ import org.springframework.http.client.ClientHttpResponse
 class ErsteAPIClientHttpRequestInterceptor(
     private val ersteProperties: ErsteProperties
 ) : ClientHttpRequestInterceptor {
+    /**
+     * Adds headers for api key and json media type for every request for erste api
+     */
     override fun intercept(
         httpRequest: HttpRequest,
         body: ByteArray,

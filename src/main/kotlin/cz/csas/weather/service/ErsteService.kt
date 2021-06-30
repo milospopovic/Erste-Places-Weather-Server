@@ -1,6 +1,7 @@
 package cz.csas.weather.service
 
-import cz.csas.weather.openapi.erste.placesapi.PageItems
+import cz.csas.weather.openapi.erste.placesapi.PagePlaces
+import cz.csas.weather.service.cache.CachingConfig.Companion.ERSTE_PLACES_CACHE_NAME
 import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -30,7 +31,7 @@ class ErsteService(
      *
      * @return page of places downloaded from erste api with information about pages
      */
-    @Cacheable("erstePlaces")
+    @Cacheable(ERSTE_PLACES_CACHE_NAME)
     fun getPlaces(
         place: String? = null,
         country: String? = null,
@@ -41,7 +42,7 @@ class ErsteService(
         detail: String = "MINIMAL",
         page: Int = 0,
         pageSize: Int = 25,
-    ): PageItems {
+    ): PagePlaces {
         require((place != null) || (lat != null && lng != null && radius != null)) {
             "city or coordinates must be filled"
         }
@@ -57,9 +58,9 @@ class ErsteService(
             .queryParam(PAGE, page.toString())
             .queryParam(PAGE_SIZE, pageSize.toString())
 
-        val entity = HttpEntity<PageItems>(HttpHeaders())
+        val entity = HttpEntity<PagePlaces>(HttpHeaders())
 
-        val response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, PageItems::class.java)
+        val response = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, PagePlaces::class.java)
         return response.getOrThrow().also {
             log.info("Downloaded data from erste: $it")
         }

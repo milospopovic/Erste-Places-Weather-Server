@@ -2,6 +2,7 @@ package cz.csas.weather.service
 
 import cz.csas.weather.openapi.openweather.OpenWeatherProperties
 import cz.csas.weather.openapi.openweather.WeatherData
+import cz.csas.weather.service.cache.CachingConfig.Companion.CURRENT_WEATHER_CACHE_NAME
 import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,7 +30,7 @@ class OpenWeatherService(
      * Downloads data about current weather by @param city and optionally @param countryCode
      * @return basic information about current weather for @param city or null if not provided
      */
-    @Cacheable("currentWeather")
+    @Cacheable(CURRENT_WEATHER_CACHE_NAME)
     fun getCurrentWeather(
         city: String,
         countryCode: String? = null

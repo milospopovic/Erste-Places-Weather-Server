@@ -1,7 +1,7 @@
 package cz.csas.weather.controller
 
 import cz.csas.weather.controller.dto.ErstePlaceWeatherResponse
-import cz.csas.weather.openapi.erste.placesapi.PageItems
+import cz.csas.weather.openapi.erste.placesapi.PagePlaces
 import cz.csas.weather.service.ErsteService
 import cz.csas.weather.service.OpenWeatherService
 import cz.csas.weather.util.ok
@@ -26,7 +26,10 @@ class ErstePlacesWeatherController(
     val ersteService: ErsteService,
     val openWeatherService: OpenWeatherService,
 ) {
-    @Operation(summary = "Get weather on Erste places by city and country")
+    @Operation(
+        summary = "Get weather on Erste places by city and country",
+        description = "Returns page of Erste places by selected page and size of page"
+    )
     @ApiResponses(
         ApiResponse(
             responseCode = "200", description = "Returned page of requested places with weather if provided",
@@ -84,7 +87,10 @@ class ErstePlacesWeatherController(
         return CollectionModel.of(response, links).ok()
     }
 
-    @Operation(summary = "Get weather on Erste places by coordinates - latitude, longitude and radius")
+    @Operation(
+        summary = "Get weather on Erste places by coordinates - latitude, longitude and radius",
+        description = "Returns page of Erste places by selected page and size of page"
+    )
     @ApiResponses(
         ApiResponse(
             responseCode = "200", description = "Returned page of requested places with weather if provided",
@@ -146,7 +152,7 @@ class ErstePlacesWeatherController(
         return CollectionModel.of(response, links).ok()
     }
 
-    private fun PageItems.toResponse() = items.map {
+    private fun PagePlaces.toResponse() = items.map {
         val city = it.city
 
         val weatherData = if (city != null)

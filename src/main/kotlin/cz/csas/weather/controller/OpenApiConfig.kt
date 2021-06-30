@@ -10,9 +10,15 @@ import io.swagger.v3.oas.models.security.SecurityScheme
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * Configuration for OpenAPI documentation
+ */
 @Configuration
 @OpenAPIDefinition(info = Info(title = "Erste Places Weather API", version = "v1"))
-class OpenApi30Config {
+class OpenApiConfig {
+    /**
+     * Adds API key as security scheme to OpenAPI
+     */
     @Bean
     fun customOpenAPI(securityProperties: SecurityProperties): OpenAPI = OpenAPI()
         .addSecurityItem(SecurityRequirement().addList(securityProperties.apiKeyHeader))
