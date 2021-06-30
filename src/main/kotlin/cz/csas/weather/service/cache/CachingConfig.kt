@@ -12,6 +12,6 @@ class CachingConfig {
 
     @Bean
     fun cacheManager(): CacheManager {
-        return ConcurrentMapCacheManager("currentWeather")
+        return ConcurrentMapCacheManager("currentWeather", "erstePlaces")
     }
 }

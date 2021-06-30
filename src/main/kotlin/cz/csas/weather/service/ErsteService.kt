@@ -5,6 +5,7 @@ import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
@@ -29,6 +30,7 @@ class ErsteService(
      *
      * @return page of places downloaded from erste api with information about pages
      */
+    @Cacheable("erstePlaces")
     fun getPlaces(
         place: String? = null,
         country: String? = null,
