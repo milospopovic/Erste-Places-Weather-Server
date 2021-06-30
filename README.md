@@ -6,6 +6,16 @@ is paginated list of ERSTE places along with current weather on selected place i
 
 Whole documentation of API is available at `http://localhost:8080/swagger-ui.html` after launch of application.
 
+# Code hierarchy
+
+
+    ├── controller              # Handles REST API requests
+    ├── openapi                 # Structure and configuration for remote API calls
+    ├── security                # Configuration of security and api key
+    ├── service                 # Components that handles downloading data from remote APIs and provides them to controller
+    └── util                    # Tools and utilities
+
+
 # Parameters
 - Add command line argument parameter `erste.apiKey` with your API key to Erste systems
 
