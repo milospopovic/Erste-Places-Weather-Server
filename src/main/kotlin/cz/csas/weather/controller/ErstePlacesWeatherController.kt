@@ -1,7 +1,7 @@
 package cz.csas.weather.controller
 
 import cz.csas.weather.controller.dto.ErstePlaceWeatherResponse
-import cz.csas.weather.rest.erste.placesapi.PageItems
+import cz.csas.weather.openapi.erste.placesapi.PageItems
 import cz.csas.weather.service.ErsteService
 import cz.csas.weather.service.OpenWeatherService
 import cz.csas.weather.util.ok

@@ -1,4 +1,4 @@
-package cz.csas.weather.rest.erste.placesapi
+package cz.csas.weather.openapi.erste.placesapi
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

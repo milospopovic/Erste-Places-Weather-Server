@@ -1,6 +1,6 @@
 package cz.csas.weather.service
 
-import cz.csas.weather.rest.erste.placesapi.PageItems
+import cz.csas.weather.openapi.erste.placesapi.PageItems
 import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

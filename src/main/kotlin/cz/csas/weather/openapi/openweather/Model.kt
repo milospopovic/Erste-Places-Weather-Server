@@ -1,4 +1,4 @@
-package cz.csas.weather.rest.openweather
+package cz.csas.weather.openapi.openweather
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 

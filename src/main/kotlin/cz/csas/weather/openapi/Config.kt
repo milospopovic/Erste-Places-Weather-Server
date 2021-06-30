@@ -1,9 +1,9 @@
-package cz.csas.weather.rest
+package cz.csas.weather.openapi
 
-import cz.csas.weather.rest.erste.ErsteAPIClientHttpRequestInterceptor
-import cz.csas.weather.rest.erste.ErsteProperties
-import cz.csas.weather.rest.openweather.OpenWeatherClientHttpRequestInterceptor
-import cz.csas.weather.rest.openweather.OpenWeatherProperties
+import cz.csas.weather.openapi.erste.ErsteAPIClientHttpRequestInterceptor
+import cz.csas.weather.openapi.erste.ErsteProperties
+import cz.csas.weather.openapi.openweather.OpenWeatherClientHttpRequestInterceptor
+import cz.csas.weather.openapi.openweather.OpenWeatherProperties
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

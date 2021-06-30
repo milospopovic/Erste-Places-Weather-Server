@@ -1,7 +1,7 @@
 package cz.csas.weather.service
 
-import cz.csas.weather.rest.openweather.OpenWeatherProperties
-import cz.csas.weather.rest.openweather.WeatherData
+import cz.csas.weather.openapi.openweather.OpenWeatherProperties
+import cz.csas.weather.openapi.openweather.WeatherData
 import cz.csas.weather.util.getOrThrow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
