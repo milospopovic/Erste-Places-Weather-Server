@@ -26,7 +26,7 @@ class ErstePlacesWeatherController(
     ): ResponseEntity<CollectionModel<ErstePlaceWeatherResponse>> {
         val ersteData = ersteService.getPlaces(
             place = city,
-            country = countryCode ?: "CZ",
+            country = countryCode,
             page = page,
             pageSize = size
         )
