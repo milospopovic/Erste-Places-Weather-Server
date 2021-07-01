@@ -23,6 +23,17 @@ class LoggerAspect {
                 "|| execution(public * cz.csas.weather.controller.*.*(..))"
     )
     fun logExecutedMethod(joinPoint: JoinPoint?) {
-        log.debug("Entering ${joinPoint?.signature}")
+        val sb = StringBuilder()
+
+        //print class and method name
+        val signature = joinPoint?.signature ?: return
+        sb.append("Entering $signature")
+
+        //print arguments
+        val args = joinPoint.args
+        if(args != null && args.isNotEmpty())
+            sb.append(" with parameters: ${args.joinToString ( ", " )}")
+
+        log.debug(sb.toString())
     }
 }
