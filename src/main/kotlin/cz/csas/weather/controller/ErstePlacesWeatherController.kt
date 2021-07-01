@@ -19,12 +19,19 @@ class ErstePlacesWeatherController(
     private val ersteService: ErsteService,
     private val openWeatherService: OpenWeatherService,
 ) : ErstePlacesWeatherOperations {
+    /**
+     * Provides weather on Erste places by city and country
+     */
     override fun getErstePlacesWeatherByCity(
         city: String,
         countryCode: String?,
         page: Int,
         size: Int
     ): ResponseEntity<CollectionModel<ErstePlaceWeatherResponse>> {
+        require(countryCode == null || countryCode.length == COUNTRY_CODE_SIZE) {
+            "country code must be empty or be exactly of size $COUNTRY_CODE_SIZE"
+        }
+
         val ersteData = ersteService.getPlaces(
             place = city,
             country = countryCode,
@@ -65,6 +72,9 @@ class ErstePlacesWeatherController(
         return CollectionModel.of(response, links).ok()
     }
 
+    /**
+     * Provides weather on Erste places by coordinates - latitude, longitude and radius
+     */
     override fun getErstePlacesWeatherByCoordinates(
         lat: Double,
         lng: Double,
@@ -138,5 +148,8 @@ class ErstePlacesWeatherController(
     companion object {
         private const val PAGE_PREV = "prev"
         private const val PAGE_NEXT = "next"
+
+        /** ISO 3166-1 alpha-2 */
+        private const val COUNTRY_CODE_SIZE = 2
     }
 }
