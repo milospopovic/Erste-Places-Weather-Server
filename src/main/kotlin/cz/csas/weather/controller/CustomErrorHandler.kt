@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.ServletWebRequest
+import java.io.IOException
 import javax.validation.ConstraintViolationException
 
 /**
@@ -25,5 +26,13 @@ class CustomErrorHandler {
     @ExceptionHandler(IllegalArgumentException::class)
     protected fun handleIllegalArgumentException(e: IllegalArgumentException, webRequest: ServletWebRequest) {
         webRequest.response?.sendError(HttpStatus.BAD_REQUEST.value(), e.message)
+    }
+
+    /**
+     * Handles IOException and set http status to 503
+     */
+    @ExceptionHandler(IOException::class)
+    protected fun handleIOException(e: IOException, webRequest: ServletWebRequest) {
+        webRequest.response?.sendError(HttpStatus.SERVICE_UNAVAILABLE.value())
     }
 }

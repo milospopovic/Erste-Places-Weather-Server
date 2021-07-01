@@ -1,8 +1,8 @@
 package cz.csas.weather.service
 
 import cz.csas.weather.WeatherApplication
+import cz.csas.weather.model.ErsteData.praguePage
 import cz.csas.weather.openapi.erste.placesapi.PagePlaces
-import cz.csas.weather.openapi.erste.placesapi.Place
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -32,24 +32,6 @@ class ErsteServiceTest {
 
     @Autowired
     private lateinit var ersteService: ErsteService
-
-    private val praguePlace = Place(
-        type = "BRANCH",
-        state = "OPEN",
-        name = "Mostecká",
-        address = "Mostecká 40/26",
-        city = "Praha 1",
-        country = "CZ"
-    )
-
-    private val praguePage = PagePlaces(
-        pageNumber = 0,
-        pageCount = 1,
-        pageSize = 1,
-        totalItemCount = 1,
-        nextPage = null,
-        items = listOf(praguePlace)
-    )
 
     @BeforeEach
     fun before() {

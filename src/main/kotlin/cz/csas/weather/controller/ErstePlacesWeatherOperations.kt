@@ -37,6 +37,7 @@ interface ErstePlacesWeatherOperations {
         ),
         ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
         ApiResponse(responseCode = "403", description = "Invalid api key", content = [Content()]),
+        ApiResponse(responseCode = "503", description = "External API is not available", content = [Content()]),
     )
     @GetMapping("/city/{city}")
     fun getErstePlacesWeatherByCity(
@@ -60,6 +61,7 @@ interface ErstePlacesWeatherOperations {
         ),
         ApiResponse(responseCode = "400", description = "Bad request", content = [Content()]),
         ApiResponse(responseCode = "403", description = "Invalid api key", content = [Content()]),
+        ApiResponse(responseCode = "503", description = "External API is not available", content = [Content()]),
     )
     @GetMapping("/coordinates")
     fun getErstePlacesWeatherByCoordinates(
