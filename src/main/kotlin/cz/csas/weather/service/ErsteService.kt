@@ -2,6 +2,7 @@ package cz.csas.weather.service
 
 import cz.csas.weather.openapi.erste.placesapi.PagePlaces
 import org.springframework.stereotype.Service
+import java.io.IOException
 
 /**
  * Service for downloading data from erste api
@@ -14,6 +15,7 @@ interface ErsteService {
      * @param detail Level of detail in returned objects
      *
      * @return page of places downloaded from erste api with information about pages
+     * @throws IOException if request is not successful
      */
     fun getPlaces(
         place: String? = null,

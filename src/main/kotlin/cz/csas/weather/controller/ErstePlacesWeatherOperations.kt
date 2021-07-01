@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
-import javax.validation.constraints.Size
 
 /**
  * Operations for providing data about Erste places and current weather on places.

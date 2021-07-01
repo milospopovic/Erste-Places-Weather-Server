@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
+import java.io.IOException
 
 /**
  * Implementation of service for downloading data from erste api
@@ -28,6 +29,7 @@ class ErsteServiceImpl(
      * @param detail Level of detail in returned objects
      *
      * @return page of places downloaded from erste api with information about pages
+     * @throws IOException if request is not successful
      */
     @Cacheable(ERSTE_PLACES_CACHE_NAME)
     override fun getPlaces(
@@ -46,15 +48,21 @@ class ErsteServiceImpl(
         }
 
         val builder = UriComponentsBuilder.fromPath(PATH)
-            .queryParam(PLACE, place)
-            .queryParam(COUNTRY, country)
-            .queryParam(LAT, lat)
-            .queryParam(LNG, lng)
             .queryParam(RADIUS, radius)
             .queryParam(TYPES, types)
             .queryParam(DETAIL, detail)
             .queryParam(PAGE, page.toString())
             .queryParam(PAGE_SIZE, pageSize.toString())
+
+        // add optional parameters
+        mapOf(
+            PLACE to place,
+            COUNTRY to country,
+            LAT to lat,
+            LNG to lng
+        ).forEach{ (key, value) ->
+            value?.also { builder.queryParam(key, value) }
+        }
 
         val entity = HttpEntity<PagePlaces>(HttpHeaders())
 
